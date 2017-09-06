@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(@NonNull GankioData gankioData) {
                         Logger.i("数据：%s", gankioData.toString());
+                        binding.mainHwTv.setText("132465");
                         binding.mainHwTv.setBackgroundColor(Color.RED);
                         binding.setGankIo(gankioData);
                     }

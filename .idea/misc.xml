@@ -8,7 +8,9 @@
     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
     <option name="myNullables">
       <value>
-        
+
+
+
 
         <list size="4">
           <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />

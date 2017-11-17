@@ -1,19 +1,27 @@
 package com.trj.mvvmdemo.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.databinding.ObservableArrayList;
+
+
+import com.trj.mvvmdemo.BR;
+
 import java.io.Serializable;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by TRJ on 2017/9/6.
  * Description:
  */
 
-public class GankioData implements Serializable{
+public class GankioData extends BaseObservable implements Serializable {
 
     public boolean error;
     public List<ResultsBean> results;
 
-    public static class ResultsBean {
+    public static class ResultsBean extends BaseObservable implements Serializable{
         public String _id;
         public String createdAt;
         public String desc;
@@ -22,8 +30,23 @@ public class GankioData implements Serializable{
         public String type;
         public String url;
         public boolean used;
+
+
+        @Bindable
+        public String getWho() {
+            return who;
+        }
+
+        public void setWho(String who) {
+            this.who = who;
+            notifyPropertyChanged(BR.who);
+        }
+
         public String who;
+
         public List<String> images;
+
+
 
         @Override
         public String toString() {

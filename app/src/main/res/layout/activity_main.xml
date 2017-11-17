@@ -4,28 +4,34 @@
     <data>
 
         <variable
-            name="gankIo"
+            name="data"
             type="com.trj.mvvmdemo.model.GankioData" />
 
     </data>
 
-    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context="com.trj.mvvmdemo.MainActivity">
 
         <TextView
             android:id="@+id/main_hw_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{gankIo.results.get(0).who}"
+            android:text="@{data.results.get(0).who}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
 
 </layout>

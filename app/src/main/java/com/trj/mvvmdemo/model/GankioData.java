@@ -5,6 +5,7 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 
 
+import com.baoyz.pg.Parcelable;
 import com.trj.mvvmdemo.BR;
 
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.util.Observable;
  * Created by TRJ on 2017/9/6.
  * Description:
  */
-
+@Parcelable
 public class GankioData extends BaseObservable implements Serializable {
 
     public boolean error;
@@ -32,17 +33,12 @@ public class GankioData extends BaseObservable implements Serializable {
         public boolean used;
 
 
-        @Bindable
-        public String getWho() {
-            return who;
-        }
-
         public void setWho(String who) {
             this.who = who;
             notifyPropertyChanged(BR.who);
         }
 
-        public String who;
+        public @Bindable String who;
 
         public List<String> images;
 

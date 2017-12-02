@@ -10,10 +10,9 @@ import dagger.android.ContributesAndroidInjector;
  * @date 2017/12/2
  * Description:
  */
-@Module
+@Module(subcomponents = SubComponent.class)
 abstract class AppModule {
     @ContributesAndroidInjector
     abstract MainActivity mainActivity();
-
 
 }

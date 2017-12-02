@@ -1,13 +1,11 @@
 package com.trj.mvvmdemo.di;
 
 import com.trj.mvvmdemo.App;
+import com.trj.mvvmdemo.dialog.NoticeDialog;
+import com.trj.mvvmdemo.model.UserData;
 
-import dagger.Binds;
-import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
-import okhttp3.OkHttpClient;
 
 /**
  * @author TRJ
@@ -15,10 +13,11 @@ import okhttp3.OkHttpClient;
  * Description:
  */
 @Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, ObjectModule.class})
-public interface AppComponent extends AndroidInjector<App> {
+public interface AppComponent {
 
-    @Component.Builder
-    abstract class Builder extends AndroidInjector.Builder<App> {
+    void inject(App app);
 
-    }
+    void inject(NoticeDialog noticeDialog);
+
+    void inject(UserData userData);
 }

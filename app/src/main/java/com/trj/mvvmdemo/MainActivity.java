@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -15,8 +16,11 @@ import com.orhanobut.logger.Logger;
 import com.trj.mvvmdemo.api.ApiService;
 import com.trj.mvvmdemo.common.BindingAdapter;
 import com.trj.mvvmdemo.databinding.ActivityMainBinding;
+import com.trj.mvvmdemo.di.AppComponent;
 import com.trj.mvvmdemo.di.DaggerAppComponent;
+import com.trj.mvvmdemo.dialog.NoticeDialog;
 import com.trj.mvvmdemo.model.GankioData;
+import com.trj.mvvmdemo.model.UserData;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +61,12 @@ public class MainActivity extends DaggerAppCompatActivity {
     @Inject
     ApiService mApi;
 
+    @Inject
+    UserData mUserData;
+
+    @Inject
+    AppComponent mAppComponent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +77,19 @@ public class MainActivity extends DaggerAppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BindingAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
+
+        Log.i("1234 user", mUserData.toString());
+        Log.i("1234 mAppComponent", mAppComponent.toString());
+        Log.i("1234 mainActivity", mOkHttp.toString()+","+ mApi.toString());
+        mHwTv.setText(mUserData.toString());
+
     }
 
 
     @OnClick(R.id.main_hw_tv)
     public void onViewClicked() {
+        new NoticeDialog(this).show();
+        mUserData.getData();
         mApi.getData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,7 +105,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
                         mAdapter.replace(gankioData.results);
 
-                        binding.setVariable(BR.data,gankioData);
+                        binding.setVariable(BR.data, gankioData);
 
                         gankioData.results.get(0).who = "动态变化";
                         gankioData.results.get(0).who = String.format(Locale.getDefault(), "动态变化 %s", Math.random() * 10);
@@ -101,8 +119,8 @@ public class MainActivity extends DaggerAppCompatActivity {
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
-                                    for (GankioData.ResultsBean bean: gankioData.results){
-                                        bean.setWho(String.format(Locale.getDefault(),"%s  %s",bean.desc,Math.random() * 10));
+                                    for (GankioData.ResultsBean bean : gankioData.results) {
+                                        bean.setWho(String.format(Locale.getDefault(), "%s  %s", bean.desc, Math.random() * 10));
                                     }
                                 }
                             }

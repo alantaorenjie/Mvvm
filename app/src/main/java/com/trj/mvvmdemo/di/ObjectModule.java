@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @date 2017/12/2
  * Description:
  */
-@Module
+@Module(subcomponents = SubComponent.class)
 public class ObjectModule {
 
     @Provides

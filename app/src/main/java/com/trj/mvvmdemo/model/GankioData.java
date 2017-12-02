@@ -2,22 +2,27 @@ package com.trj.mvvmdemo.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.ObservableArrayList;
+import android.util.Log;
 
-
-import com.baoyz.pg.Parcelable;
+import com.trj.mvvmdemo.App;
 import com.trj.mvvmdemo.BR;
+import com.trj.mvvmdemo.di.DaggerAppComponent;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Observable;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.DispatchingAndroidInjector;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by TRJ on 2017/9/6.
  * Description:
  */
-@Parcelable
 public class GankioData extends BaseObservable implements Serializable {
+
 
     public boolean error;
     public List<ResultsBean> results;

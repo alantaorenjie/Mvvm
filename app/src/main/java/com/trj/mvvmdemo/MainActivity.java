@@ -15,14 +15,20 @@ import com.orhanobut.logger.Logger;
 import com.trj.mvvmdemo.api.ApiService;
 import com.trj.mvvmdemo.common.BindingAdapter;
 import com.trj.mvvmdemo.databinding.ActivityMainBinding;
+import com.trj.mvvmdemo.di.DaggerAppComponent;
 import com.trj.mvvmdemo.model.GankioData;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjection;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.DaggerAppCompatActivity;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -33,7 +39,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DaggerAppCompatActivity {
 
     @BindView(R.id.main_hw_tv)
     TextView mHwTv;
@@ -41,10 +47,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
-    ApiService mApiService;
 
     private ViewDataBinding binding;
     private BindingAdapter mAdapter;
+
+    @Inject
+    OkHttpClient mOkHttp;
+
+    @Inject
+    ApiService mApi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,34 +64,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         ButterKnife.bind(this);
-        init();
-        onViewClicked();
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BindingAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
-    private void init() {
-        Logger.addLogAdapter(new AndroidLogAdapter());
-        OkHttpClient okhttpClient = new OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .build();
-
-        mApiService = new Retrofit.Builder()
-                .baseUrl("http://gank.io/api/data/Android/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okhttpClient)
-                .build()
-                .create(ApiService.class);
-    }
 
     @OnClick(R.id.main_hw_tv)
     public void onViewClicked() {
-        mApiService.getData()
+        mApi.getData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<GankioData>() {

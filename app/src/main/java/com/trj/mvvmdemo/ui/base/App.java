@@ -1,4 +1,4 @@
-package com.trj.mvvmdemo;
+package com.trj.mvvmdemo.ui.base;
 
 
 import android.app.Activity;
@@ -12,7 +12,6 @@ import com.trj.mvvmdemo.di.DaggerAppComponent;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
-import dagger.android.DaggerApplication;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 
@@ -22,6 +21,8 @@ import dagger.android.HasActivityInjector;
  * Description:
  */
 public class App extends Application implements HasActivityInjector {
+
+    public static AppComponent mAppComponent;
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
@@ -35,7 +36,8 @@ public class App extends Application implements HasActivityInjector {
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerAppComponent.create().inject(this);
+        mAppComponent = DaggerAppComponent.create();
+        mAppComponent.inject(this);
     }
 
     @Override

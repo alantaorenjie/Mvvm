@@ -6,6 +6,8 @@ import com.trj.mvvmdemo.config.AppConfig;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -22,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ObjectModule {
 
     @Provides
+    @Singleton
     static OkHttpClient provideOkHttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -33,6 +36,7 @@ public class ObjectModule {
     }
 
     @Provides
+    @Singleton
     static ApiService provideApiService(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConfig.getBaseUrl())

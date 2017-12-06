@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.trj.mvvmdemo.MainActivity">
+        tools:context="com.trj.mvvmdemo.ui.activity.MainActivity">
 
         <TextView
             android:id="@+id/main_hw_tv"

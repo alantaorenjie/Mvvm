@@ -1,6 +1,6 @@
 package com.trj.mvvmdemo.di;
 
-import com.trj.mvvmdemo.App;
+import com.trj.mvvmdemo.ui.base.App;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;

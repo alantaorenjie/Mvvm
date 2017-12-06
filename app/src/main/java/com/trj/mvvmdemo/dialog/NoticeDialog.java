@@ -1,13 +1,11 @@
 package com.trj.mvvmdemo.dialog;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 
-import com.trj.mvvmdemo.App;
+import com.trj.mvvmdemo.ui.base.App;
 import com.trj.mvvmdemo.R;
 import com.trj.mvvmdemo.api.ApiService;
-import com.trj.mvvmdemo.di.DaggerAppComponent;
 
 import javax.inject.Inject;
 
@@ -22,7 +20,7 @@ public class NoticeDialog extends BaseDialog {
 
     public NoticeDialog(Context context) {
         super(context);
-        DaggerAppComponent.create().inject(this);
+        App.mAppComponent.inject(this);
     }
 
     @Override

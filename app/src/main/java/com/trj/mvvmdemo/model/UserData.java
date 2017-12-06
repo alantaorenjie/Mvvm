@@ -5,6 +5,9 @@ import com.trj.mvvmdemo.BR;
 import com.trj.mvvmdemo.api.ApiService;
 import com.trj.mvvmdemo.di.DaggerAppComponent;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -13,6 +16,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 
@@ -27,8 +31,7 @@ public class UserData {
 
     @Inject
     ApiService mApiService;
-
-
+    
     @Inject
     public UserData() {
     }
@@ -40,11 +43,11 @@ public class UserData {
                 .subscribe(new Observer<GankioData>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        Logger.i("onSubscribe:%s", d.toString());
+
                     }
 
                     @Override
-                    public void onNext(@NonNull final GankioData gankioData) {
+                    public void onNext(@NonNull GankioData gankioData) {
                         Logger.i("数据：%s", gankioData.toString());
                         gankioData.results.get(0).who = "动态变化";
                         gankioData.results.get(0).who = String.format(Locale.getDefault(), "动态变化 %s", Math.random() * 10);
@@ -52,12 +55,12 @@ public class UserData {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Logger.e(e.getMessage());
+
                     }
 
                     @Override
                     public void onComplete() {
-                        Logger.i("onComplete");
+
                     }
                 });
     }

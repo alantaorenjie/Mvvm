@@ -1,59 +1,46 @@
-package com.trj.mvvmdemo;
+package com.trj.mvvmdemo.ui.activity;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.trj.mvvmdemo.BR;
+import com.trj.mvvmdemo.R;
 import com.trj.mvvmdemo.api.ApiService;
 import com.trj.mvvmdemo.common.BindingAdapter;
-import com.trj.mvvmdemo.databinding.ActivityMainBinding;
 import com.trj.mvvmdemo.di.AppComponent;
-import com.trj.mvvmdemo.di.DaggerAppComponent;
 import com.trj.mvvmdemo.dialog.NoticeDialog;
 import com.trj.mvvmdemo.model.GankioData;
 import com.trj.mvvmdemo.model.UserData;
+import com.trj.mvvmdemo.ui.base.BaseActivity;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import dagger.android.AndroidInjection;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.DaggerAppCompatActivity;
+import dagger.Lazy;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends DaggerAppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.main_hw_tv)
     TextView mHwTv;
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-
-
-    private ViewDataBinding binding;
-    private BindingAdapter mAdapter;
 
     @Inject
     OkHttpClient mOkHttp;
@@ -62,38 +49,40 @@ public class MainActivity extends DaggerAppCompatActivity {
     ApiService mApi;
 
     @Inject
-    UserData mUserData;
+    Lazy<UserData> mUserData;
 
     @Inject
     AppComponent mAppComponent;
 
+    private BindingAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        ButterKnife.bind(this);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void init() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BindingAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
 
-        Log.i("1234 user", mUserData.toString());
+        Log.i("1234 user", mUserData.get().toString());
         Log.i("1234 mAppComponent", mAppComponent.toString());
         Log.i("1234 mainActivity", mOkHttp.toString()+","+ mApi.toString());
         mHwTv.setText(mUserData.toString());
-
     }
 
 
     @OnClick(R.id.main_hw_tv)
     public void onViewClicked() {
         new NoticeDialog(this).show();
-        mUserData.getData();
+        mUserData.get().getData();
         mApi.getData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<GankioData>() {
+
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         Logger.i("onSubscribe:%s", d.toString());
@@ -105,7 +94,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
                         mAdapter.replace(gankioData.results);
 
-                        binding.setVariable(BR.data, gankioData);
+                        mViewDatabinding.setVariable(BR.data, gankioData);
 
                         gankioData.results.get(0).who = "动态变化";
                         gankioData.results.get(0).who = String.format(Locale.getDefault(), "动态变化 %s", Math.random() * 10);

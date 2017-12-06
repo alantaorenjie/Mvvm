@@ -1,8 +1,10 @@
 package com.trj.mvvmdemo.di;
 
-import com.trj.mvvmdemo.App;
+import com.trj.mvvmdemo.ui.base.App;
 import com.trj.mvvmdemo.dialog.NoticeDialog;
 import com.trj.mvvmdemo.model.UserData;
+
+import javax.inject.Singleton;
 
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
@@ -12,6 +14,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
  * @date 2017/12/2
  * Description:
  */
+@Singleton
 @Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, ObjectModule.class})
 public interface AppComponent {
 

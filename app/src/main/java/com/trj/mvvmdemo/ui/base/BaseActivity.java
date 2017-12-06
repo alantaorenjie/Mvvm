@@ -4,6 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 
+import com.trj.mvvmdemo.BR;
+
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -12,17 +14,35 @@ import dagger.android.support.DaggerAppCompatActivity;
  * @date 2017/12/6
  * Description:
  */
-public abstract class BaseActivity extends DaggerAppCompatActivity {
+public abstract class BaseActivity<VM extends BaseViewModule> extends DaggerAppCompatActivity {
 
-    public ViewDataBinding mViewDatabinding;
+    public VM mViewModule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewDatabinding = DataBindingUtil.setContentView(this, getLayoutId());
+        initViewDataBinding();
         ButterKnife.bind(this);
+        mViewModule.onCreateView();
         init();
     }
+
+    private void initViewDataBinding() {
+        ViewDataBinding viewDatabinding = DataBindingUtil.setContentView(this, getLayoutId());
+        viewDatabinding.setVariable(BR.vm, mViewModule = getViewModule());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mViewModule.onDestroyView();
+    }
+
+    /**
+     * 获取ViewModule
+     * @return 返回当前activity的ViewModule
+     */
+    protected abstract VM getViewModule();
 
     /**
      * 获取布局资源id

@@ -1,6 +1,7 @@
 package com.trj.mvvmdemo.di;
 
 import com.trj.mvvmdemo.ui.activity.MainActivity;
+import com.trj.mvvmdemo.ui.base.BaseActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -14,6 +15,9 @@ import dagger.android.ContributesAndroidInjector;
 abstract class AppModule {
     @ContributesAndroidInjector
     abstract MainActivity mainActivity();
+
+//    @ContributesAndroidInjector
+//    abstract BaseActivity baseActivtity();
 
 //    @ContributesAndroidInjector
 //    abstract NoticeDialog NoticeDialog();

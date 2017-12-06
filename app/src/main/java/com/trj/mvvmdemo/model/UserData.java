@@ -26,12 +26,13 @@ import okhttp3.OkHttpClient;
  * Description:
  */
 public class UserData {
+
     @Inject
     OkHttpClient mOkHttpClient;
 
     @Inject
     ApiService mApiService;
-    
+
     @Inject
     public UserData() {
     }

@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="data"
-            type="com.trj.mvvmdemo.model.GankioData" />
+            name="vm"
+            type="com.trj.mvvmdemo.ui.vm.MainViewModule" />
 
     </data>
 
@@ -20,7 +20,6 @@
             android:id="@+id/main_hw_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{data.results.get(0).who}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

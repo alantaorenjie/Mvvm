@@ -15,9 +15,7 @@ import com.trj.mvvmdemo.dialog.NoticeDialog;
 import com.trj.mvvmdemo.model.GankioData;
 import com.trj.mvvmdemo.model.UserData;
 import com.trj.mvvmdemo.ui.base.BaseActivity;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
+import com.trj.mvvmdemo.ui.vm.MainViewModule;
 
 import java.util.Locale;
 
@@ -30,11 +28,10 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<MainViewModule> {
 
     @BindView(R.id.main_hw_tv)
     TextView mHwTv;
@@ -54,7 +51,15 @@ public class MainActivity extends BaseActivity {
     @Inject
     AppComponent mAppComponent;
 
+    @Inject
+    MainViewModule VM;
+
     private BindingAdapter mAdapter;
+
+    @Override
+    protected MainViewModule getViewModule() {
+        return VM;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -94,7 +99,7 @@ public class MainActivity extends BaseActivity {
 
                         mAdapter.replace(gankioData.results);
 
-                        mViewDatabinding.setVariable(BR.data, gankioData);
+//                        mViewDatabinding.setVariable(BR.data, gankioData);
 
                         gankioData.results.get(0).who = "动态变化";
                         gankioData.results.get(0).who = String.format(Locale.getDefault(), "动态变化 %s", Math.random() * 10);

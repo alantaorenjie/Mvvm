@@ -6,7 +6,6 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
-import com.trj.mvvmdemo.BR;
 import com.trj.mvvmdemo.R;
 import com.trj.mvvmdemo.api.ApiService;
 import com.trj.mvvmdemo.common.BindingAdapter;
@@ -31,6 +30,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 
+/**
+ * @author TRJ
+ * @date 2017/12/6
+ * Description:
+ */
 public class MainActivity extends BaseActivity<MainViewModule> {
 
     @BindView(R.id.main_hw_tv)

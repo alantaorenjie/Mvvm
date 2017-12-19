@@ -1,9 +1,6 @@
 package com.trj.mvvmdemo.ui.vm;
 
-import android.content.Context;
-
 import com.trj.mvvmdemo.ui.activity.MainActivity;
-import com.trj.mvvmdemo.ui.base.BaseActivity;
 import com.trj.mvvmdemo.ui.base.BaseViewModule;
 
 import javax.inject.Inject;
@@ -15,10 +12,13 @@ import javax.inject.Inject;
  */
 public class MainViewModule extends BaseViewModule{
 
-    private Context mContext;
+    private MainActivity mMainActivity;
 
     @Inject
-    public MainViewModule(MainActivity baseActivity) {
-        this.mContext = baseActivity;
+    public SubMainViewModule subMainViewModule;
+
+    @Inject
+    public MainViewModule(MainActivity mainActivity) {
+        this.mMainActivity = mainActivity;
     }
 }

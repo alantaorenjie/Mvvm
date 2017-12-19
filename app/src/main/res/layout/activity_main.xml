@@ -20,6 +20,7 @@
             android:id="@+id/main_hw_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@{vm.subMainViewModule.tips}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

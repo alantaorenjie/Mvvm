@@ -29,7 +29,11 @@ public abstract class BaseActivity<VM extends BaseViewModule> extends DaggerAppC
 
     private void initViewDataBinding() {
         ViewDataBinding viewDatabinding = DataBindingUtil.setContentView(this, getLayoutId());
-        viewDatabinding.setVariable(BR.vm, mViewModule = getViewModule());
+        mViewModule = getViewModule();
+        if (mViewModule == null) {
+            throw new NullPointerException("你需要在Activity中注入ViewModule");
+        }
+        viewDatabinding.setVariable(BR.vm, mViewModule);
     }
 
     @Override
@@ -40,12 +44,14 @@ public abstract class BaseActivity<VM extends BaseViewModule> extends DaggerAppC
 
     /**
      * 获取ViewModule
+     *
      * @return 返回当前activity的ViewModule
      */
     protected abstract VM getViewModule();
 
     /**
      * 获取布局资源id
+     *
      * @return 当前activity的layout id
      */
     protected abstract int getLayoutId();

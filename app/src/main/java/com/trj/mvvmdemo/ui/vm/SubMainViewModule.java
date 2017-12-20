@@ -16,5 +16,7 @@ public class SubMainViewModule extends BaseViewModule {
 
     @Inject
     public SubMainViewModule(MainActivity mainActivity) {
+        super(mainActivity);
+        showToast("SubMainViewModule");
     }
 }

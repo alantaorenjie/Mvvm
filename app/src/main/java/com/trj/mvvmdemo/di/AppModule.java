@@ -2,6 +2,7 @@ package com.trj.mvvmdemo.di;
 
 import com.trj.mvvmdemo.ui.activity.MainActivity;
 import com.trj.mvvmdemo.ui.base.BaseActivity;
+import com.trj.mvvmdemo.ui.fragment.IndexFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -15,6 +16,9 @@ import dagger.android.ContributesAndroidInjector;
 abstract class AppModule {
     @ContributesAndroidInjector
     abstract MainActivity mainActivity();
+
+    @ContributesAndroidInjector
+    abstract IndexFragment indexFragment();
 
 //    @ContributesAndroidInjector
 //    abstract BaseActivity baseActivtity();

@@ -3,6 +3,8 @@ package com.trj.mvvmdemo.ui.base;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.trj.mvvmdemo.BR;
 
@@ -14,9 +16,12 @@ import dagger.android.support.DaggerAppCompatActivity;
  * @date 2017/12/6
  * Description:
  */
-public abstract class BaseActivity<VM extends BaseViewModule> extends DaggerAppCompatActivity {
+public abstract class BaseActivity<B extends ViewDataBinding, VM extends BaseViewModule> extends DaggerAppCompatActivity {
 
     public VM mViewModule;
+    public B mBinding;
+
+    public Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +33,8 @@ public abstract class BaseActivity<VM extends BaseViewModule> extends DaggerAppC
     }
 
     private void initViewDataBinding() {
-        ViewDataBinding viewDatabinding = DataBindingUtil.setContentView(this, getLayoutId());
-        mViewModule = getViewModule();
-        if (mViewModule == null) {
-            throw new NullPointerException("你需要在Activity中注入ViewModule");
-        }
-        viewDatabinding.setVariable(BR.vm, mViewModule);
+        mBinding = DataBindingUtil.setContentView(this, getLayoutId());
+        mBinding.setVariable(BR.vm, mViewModule = getViewModule());
     }
 
     @Override
@@ -43,13 +44,6 @@ public abstract class BaseActivity<VM extends BaseViewModule> extends DaggerAppC
     }
 
     /**
-     * 获取ViewModule
-     *
-     * @return 返回当前activity的ViewModule
-     */
-    protected abstract VM getViewModule();
-
-    /**
      * 获取布局资源id
      *
      * @return 当前activity的layout id
@@ -57,7 +51,26 @@ public abstract class BaseActivity<VM extends BaseViewModule> extends DaggerAppC
     protected abstract int getLayoutId();
 
     /**
+     * 获取ViewModule
+     *
+     * @return 返回当前activity的ViewModule
+     */
+    protected abstract VM getViewModule();
+
+    /**
      * 初始化activity
      */
     protected abstract void init();
+
+
+    public void showToast(String toast){
+        if (mToast == null){
+            mToast = Toast.makeText(this,"",Toast.LENGTH_SHORT);
+        }
+        if (TextUtils.isEmpty(toast)){
+            return;
+        }
+        mToast.setText(toast);
+        mToast.show();
+    }
 }

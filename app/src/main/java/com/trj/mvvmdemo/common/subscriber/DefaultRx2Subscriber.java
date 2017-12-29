@@ -1,8 +1,6 @@
 package com.trj.mvvmdemo.common.subscriber;
 
-import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DefaultObserver;
 
 /**

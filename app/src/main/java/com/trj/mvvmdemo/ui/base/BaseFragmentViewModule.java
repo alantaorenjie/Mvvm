@@ -1,5 +1,7 @@
 package com.trj.mvvmdemo.ui.base;
 
+import android.app.Activity;
+
 import javax.inject.Inject;
 
 /**
@@ -11,7 +13,7 @@ public abstract class BaseFragmentViewModule {
 
     public BaseActivity mActivity;
 
-    public BaseFragmentViewModule(BaseFragment baseFragment) {
-        this.mActivity = (BaseActivity) baseFragment.getActivity();
+    public BaseFragmentViewModule(Activity baseActivity) {
+        this.mActivity = (BaseActivity) baseActivity;
     }
 }
